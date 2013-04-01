@@ -95,7 +95,7 @@
 #import	<Foundation/NSPointerArray.h>
 #import	<Foundation/NSPointerFunctions.h>
 #import	<Foundation/NSPortCoder.h>
-#import	<Foundation/NSPortMessage.h>
+//#import	<Foundation/NSPortMessage.h>
 #import	<Foundation/NSPortNameServer.h>
 #import	<Foundation/NSPredicate.h>
 #import	<Foundation/NSProcessInfo.h>

@@ -34,7 +34,7 @@
 extern "C" {
 #endif
 
-#if	OS_API_VERSION(GS_API_NONE,GS_API_LATEST)
+#if	OS_API_VERSION(GS_API_NONE,GS_API_LATEST) || WIISTEP
 
 @interface      NSAttributedString (GNUstepBase)
 /**

@@ -293,7 +293,7 @@ GS_ROOT_CLASS @interface NSObject <NSObject>
   Class isa;
 }
 
-#if OS_API_VERSION(MAC_OS_X_VERSION_10_5, GS_API_LATEST)
+#if OS_API_VERSION(MAC_OS_X_VERSION_10_5, GS_API_LATEST) || WIISTEP
 /** On a system which performs garbage collection, you should implement
  * this method to execute code when the receiver is collected.<br />
  * You must not call this method yourself (except when a subclass

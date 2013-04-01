@@ -55,7 +55,7 @@ extern "C" {
 
 #import	<Foundation/NSObject.h>
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 #import	<Foundation/NSString.h>
 #import	<Foundation/NSDictionary.h>
 #import	<Foundation/NSArray.h>

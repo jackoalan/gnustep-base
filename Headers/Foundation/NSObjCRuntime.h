@@ -129,7 +129,7 @@ GS_EXPORT NSString	*NSStringFromClass(Class aClass);
 GS_EXPORT const char	*NSGetSizeAndAlignment(const char *typePtr,
   NSUInteger *sizep, NSUInteger *alignp);
 
-#if OS_API_VERSION(GS_API_NONE, GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE, GS_API_NONE) || WIISTEP
 /* Logging */
 /**
  *  OpenStep spec states that log messages go to stderr, but just in case
