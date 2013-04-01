@@ -27,7 +27,7 @@
 
 #import	<GNUstepBase/GSVersionMacros.h>
 
-#if OS_API_VERSION(MAC_OS_X_VERSION_10_4, GS_API_LATEST)
+#if OS_API_VERSION(MAC_OS_X_VERSION_10_4, GS_API_LATEST) || WIISTEP
 
 #import <Foundation/NSObject.h>
 

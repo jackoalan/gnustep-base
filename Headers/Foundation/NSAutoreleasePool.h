@@ -251,7 +251,7 @@ NS_AUTOMATED_REFCOUNT_UNAVAILABLE
  */
 - (id) retain;
 
-#if OS_API_VERSION(GS_API_NONE, GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE, GS_API_NONE) || WIISTEP
 /**
  * <p>
  *   Counts the number of times that the specified object occurs

@@ -34,12 +34,12 @@
 extern "C" {
 #endif
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 @class	NSError;
 @class	NSURL;
 #endif
 
-#if OS_API_VERSION(100400,GS_API_LATEST) 
+#if OS_API_VERSION(100400,GS_API_LATEST) || WIISTEP
 enum {
   NSMappedRead = 1,
   NSUncachedRead = 2
@@ -59,14 +59,14 @@ enum {
 	      length: (NSUInteger)length;
 + (id) dataWithBytesNoCopy: (void*)bytes
 		    length: (NSUInteger)length;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 + (id) dataWithBytesNoCopy: (void*)aBuffer
 		    length: (NSUInteger)bufferSize
 	      freeWhenDone: (BOOL)shouldFree;
 #endif
 + (id) dataWithContentsOfFile: (NSString*)path;
 + (id) dataWithContentsOfMappedFile: (NSString*)path;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 + (id) dataWithContentsOfURL: (NSURL*)url;
 #endif
 + (id) dataWithData: (NSData*)data;
@@ -74,14 +74,14 @@ enum {
 	      length: (NSUInteger)bufferSize;
 - (id) initWithBytesNoCopy: (void*)aBuffer
 		    length: (NSUInteger)bufferSize;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 - (id) initWithBytesNoCopy: (void*)aBuffer
 		    length: (NSUInteger)bufferSize
 	      freeWhenDone: (BOOL)shouldFree;
 #endif
 - (id) initWithContentsOfFile: (NSString*)path;
 - (id) initWithContentsOfMappedFile: (NSString*)path;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 - (id) initWithContentsOfURL: (NSURL*)url;
 #endif
 - (id) initWithData: (NSData*)data;
@@ -115,7 +115,7 @@ enum {
 - (BOOL) writeToFile: (NSString*)path
 	  atomically: (BOOL)useAuxiliaryFile;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  * Writes a copy of the contents of the receiver to the specified URL.
  */
@@ -141,7 +141,7 @@ enum {
 		   count: (unsigned int)numInts
 		 atIndex: (unsigned int)index;
 
-#if OS_API_VERSION(100400,GS_API_LATEST) 
+#if OS_API_VERSION(100400,GS_API_LATEST) || WIISTEP
 /**
  * <p>Writes a copy of the data encapsulated by the receiver to a file
  * at path.  If the NSAtomicWrite option is set, this writes to a
@@ -165,7 +165,7 @@ enum {
 #endif
 @end
 
-#if OS_API_VERSION(GS_API_NONE, GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE, GS_API_NONE) || WIISTEP
 
 /*
  *	We include special support for coding/decoding - adding methods for
@@ -300,7 +300,7 @@ enum {
 
 @end
 
-#if OS_API_VERSION(GS_API_NONE, GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE, GS_API_NONE) || WIISTEP
 
 @interface NSMutableData (GNUstepExtensions)
 /*

@@ -482,7 +482,7 @@ NSExtraRefCount(id anObject);
 GS_EXPORT void
 NSIncrementExtraRefCount(id anObject);
 
-#if OS_API_VERSION(GS_API_NONE, GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE, GS_API_NONE) || WIISTEP
 
 /** Global lock to be used by classes when operating on any global
     data that invoke other methods which also access global; thus,
@@ -544,7 +544,7 @@ GS_EXPORT NSRecursiveLock *gnustep_global_lock;
 		 inModes: (NSArray*)modes;
 @end
 
-#if OS_API_VERSION(MAC_OS_X_VERSION_10_6, GS_API_LATEST)
+#if OS_API_VERSION(MAC_OS_X_VERSION_10_6, GS_API_LATEST) || WIISTEP
 /**
  * The NSDiscardableContent protocol is used by objects which encapsulate data
  * which may be discarded if resource constraints are exceeded.  These

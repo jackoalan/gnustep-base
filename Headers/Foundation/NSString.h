@@ -81,7 +81,7 @@ extern "C" {
  */
 typedef uint16_t unichar;
 
-#if OS_API_VERSION(100500,GS_API_LATEST) 
+#if OS_API_VERSION(100500,GS_API_LATEST) || WIISTEP
 #define NSMaximumStringLength   (INT_MAX-1)
 #endif
 
@@ -89,7 +89,7 @@ typedef uint16_t unichar;
 @class NSCharacterSet;
 @class NSData;
 @class NSDictionary;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 @class NSError;
 @class NSLocale;
 @class NSURL;
@@ -110,7 +110,7 @@ enum
  NSWidthInsensitiveSearch = 256,
  NSForcedOrderingSearch = 512
 #endif
-#if OS_API_VERSION(100700,GS_API_LATEST) 
+#if OS_API_VERSION(100700,GS_API_LATEST) || WIISTEP
  ,
  /**
   * Treats the search string as a regular expression.  This option may be
@@ -196,7 +196,7 @@ typedef enum _NSStringEncoding
   NSBIG5StringEncoding,			// Traditional chinese
   NSKoreanEUCStringEncoding		// Korean
 
-#if OS_API_VERSION(100400,GS_API_LATEST) 
+#if OS_API_VERSION(100400,GS_API_LATEST) || WIISTEP
   ,
   NSUTF16BigEndianStringEncoding = 0x90000100,
   NSUTF16LittleEndianStringEncoding = 0x94000100,
@@ -267,7 +267,7 @@ typedef NSUInteger NSStringEncodingConversionOptions;
 + (id) string;
 + (id) stringWithCharacters: (const unichar*)chars
 		     length: (NSUInteger)length;
-#if OS_API_VERSION(100400,GS_API_LATEST) && GS_API_VERSION( 10200,GS_API_LATEST)
+#if OS_API_VERSION(100400,GS_API_LATEST) && GS_API_VERSION( 10200,GS_API_LATEST) || WIISTEP
 + (id) stringWithCString: (const char*)byteString
 		encoding: (NSStringEncoding)encoding;
 #endif
@@ -279,7 +279,7 @@ typedef NSUInteger NSStringEncodingConversionOptions;
 
 // Initializing Newly Allocated Strings
 - (id) init;
-#if OS_API_VERSION(100400,GS_API_LATEST) && GS_API_VERSION( 10200,GS_API_LATEST)
+#if OS_API_VERSION(100400,GS_API_LATEST) && GS_API_VERSION( 10200,GS_API_LATEST) || WIISTEP
 - (id) initWithBytes: (const void*)bytes
 	      length: (NSUInteger)length
 	    encoding: (NSStringEncoding)encoding;
@@ -288,7 +288,7 @@ typedef NSUInteger NSStringEncodingConversionOptions;
 		  encoding: (NSStringEncoding)encoding 
 	      freeWhenDone: (BOOL)flag;
 #endif
-#if OS_API_VERSION(100400,GS_API_LATEST)
+#if OS_API_VERSION(100400,GS_API_LATEST) || WIISTEP
 + (id) stringWithContentsOfFile: (NSString*)path
                    usedEncoding: (NSStringEncoding*)enc
                           error: (NSError**)error;
@@ -414,9 +414,9 @@ typedef NSUInteger NSStringEncodingConversionOptions;
 
 // Getting C Strings
 - (const char*) cString;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 
-#if OS_API_VERSION(100400,GS_API_LATEST) && GS_API_VERSION( 10200,GS_API_LATEST)
+#if OS_API_VERSION(100400,GS_API_LATEST) && GS_API_VERSION( 10200,GS_API_LATEST) || WIISTEP
 - (const char*) cStringUsingEncoding: (NSStringEncoding)encoding;
 - (BOOL) getCString: (char*)buffer
 	  maxLength: (NSUInteger)maxLength
@@ -683,7 +683,7 @@ typedef NSUInteger NSStringEncodingConversionOptions;
 // for methods working with decomposed strings
 - (int) _baseLength;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  * Concatenates the path components in the array and returns the result.<br />
  * This method does not remove empty path components, but does recognize an
@@ -798,7 +798,7 @@ typedef NSUInteger NSStringEncodingConversionOptions;
 
 #endif
 
-#if OS_API_VERSION(GS_API_NONE, GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE, GS_API_NONE) || WIISTEP
 + (Class) constantStringClass;
 #endif	/* GS_API_NONE */
 

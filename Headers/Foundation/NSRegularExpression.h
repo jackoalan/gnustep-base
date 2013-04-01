@@ -23,7 +23,7 @@
 #define _NSRegularExpression_h_GNUSTEP_BASE_INCLUDE
 #import	<GNUstepBase/GSVersionMacros.h>
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 
 #import	<Foundation/NSObject.h>
 #import "GNUstepBase/GSBlocks.h"

@@ -31,7 +31,7 @@
 
 #import	<Foundation/NSObject.h>
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 
 #if	USE_GMP
 #include <gmp.h>

@@ -39,7 +39,7 @@ extern "C" {
 @class NSURL;
 @class NSIndexSet;
 
-#if OS_API_VERSION(100600, GS_API_LATEST)
+#if OS_API_VERSION(100600, GS_API_LATEST) || WIISTEP
 enum
 {
   NSBinarySearchingFirstEqual = (1UL << 8), /** Specifies that the binary
@@ -154,7 +154,7 @@ typedef NSUInteger NSBinarySearchingOptions;
 - (id) valueForKey: (NSString*)key;
 #endif
 
-#if OS_API_VERSION(100600, GS_API_LATEST)
+#if OS_API_VERSION(100600, GS_API_LATEST) || WIISTEP
 
 DEFINE_BLOCK_TYPE(GSEnumeratorBlock, void, id, NSUInteger, BOOL*);
 DEFINE_BLOCK_TYPE(GSPredicateBlock, BOOL, id, NSUInteger, BOOL*);
@@ -365,7 +365,7 @@ DEFINE_BLOCK_TYPE(GSPredicateBlock, BOOL, id, NSUInteger, BOOL*);
 - (void) sortUsingSelector: (SEL)comparator;
 
 
-#if OS_API_VERSION(100600, GS_API_LATEST)
+#if OS_API_VERSION(100600, GS_API_LATEST) || WIISTEP
 /**
  * Sorts the array using the specified comparator block.
  */

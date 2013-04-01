@@ -28,7 +28,7 @@
 
 #import	<Foundation/NSObject.h>
 
-#if OS_API_VERSION(100500, GS_API_LATEST)
+#if OS_API_VERSION(100500, GS_API_LATEST) || WIISTEP
 
 #if	defined(__cplusplus)
 extern "C" {

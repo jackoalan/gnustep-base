@@ -87,7 +87,7 @@ struct _NSRange
   NSUInteger length;
 };
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /** Pointer to an NSRange structure. */
 typedef NSRange *NSRangePointer;
 #endif

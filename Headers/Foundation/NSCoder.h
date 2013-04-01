@@ -224,7 +224,7 @@ extern "C" {
  */
 - (NSInteger) versionForClassName: (NSString*)className;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /*
  * Include GSConfig.h for typedefs/defines of uint8_t, int32_t int64_t
  */

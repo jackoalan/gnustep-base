@@ -4424,7 +4424,7 @@ static NSFileManager *fm = nil;
     {
       s = [s stringByExpandingTildeInPath];
     }
-#if defined(__MINGW__)
+#if defined(__MINGW__) || WIISTEP
   return IMMUTABLE(s);
 #else
 

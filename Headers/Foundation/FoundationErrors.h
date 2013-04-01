@@ -28,7 +28,7 @@
 #import <GNUstepBase/GSVersionMacros.h>
 #import <Foundation/NSObject.h>
 
-#if OS_API_VERSION(MAC_OS_X_VERSION_10_4, GS_API_LATEST)
+#if OS_API_VERSION(MAC_OS_X_VERSION_10_4, GS_API_LATEST) || WIISTEP
 
 /* These are those of the NSError code values for the NSCocoaErrorDomain
  * which are defined in the foundation/base library.

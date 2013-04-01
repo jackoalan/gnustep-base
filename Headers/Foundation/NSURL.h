@@ -32,7 +32,7 @@
 extern "C" {
 #endif
 
-#if	OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if	OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 
 @class NSError;
 @class NSNumber;

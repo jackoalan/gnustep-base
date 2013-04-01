@@ -30,7 +30,7 @@
 #import	<GNUstepBase/GSVersionMacros.h>
 #import <GNUstepBase/GSBlocks.h>
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 
 #import	<Foundation/NSObject.h>
 #import	<Foundation/NSRange.h>
@@ -97,7 +97,7 @@ extern "C" {
 - (NSUInteger) countOfIndexesInRange: (NSRange)range;
 #endif
 
-#if OS_API_VERSION(100600,GS_API_LATEST)
+#if OS_API_VERSION(100600,GS_API_LATEST) || WIISTEP
 DEFINE_BLOCK_TYPE(GSIndexSetEnumerationBlock, void, NSUInteger, BOOL*);
 - (void)enumerateIndexesInRange: (NSRange)range
                         options: (NSEnumerationOptions)opts

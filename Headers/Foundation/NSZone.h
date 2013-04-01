@@ -291,7 +291,7 @@ NSDeallocateMemoryPages (void *ptr, NSUInteger bytes);
 GS_EXPORT void
 NSCopyMemoryPages (const void *src, void *dest, NSUInteger bytes);
 
-#if OS_API_VERSION(MAC_OS_X_VERSION_10_4, OS_API_LATEST)
+#if OS_API_VERSION(MAC_OS_X_VERSION_10_4, OS_API_LATEST) || WIISTEP
 
 enum {
   NSScannedOption = (1<<0),

@@ -30,7 +30,7 @@
 
 #import	<Foundation/NSObject.h>
 
-#if	OS_API_VERSION(100300,GS_API_LATEST)
+#if	OS_API_VERSION(100300,GS_API_LATEST) || WIISTEP
 
 #if	defined(__cplusplus)
 extern "C" {
@@ -98,7 +98,7 @@ GS_EXPORT NSString* const NSOSStatusErrorDomain;
  * Domain for system and system library errors.
  */
 GS_EXPORT NSString* const NSPOSIXErrorDomain;
-#if	OS_API_VERSION(100400,GS_API_LATEST)
+#if	OS_API_VERSION(100400,GS_API_LATEST) || WIISTEP
 /**
  * Domain for Foundation and AppKit (base and gui) errors.
  */
