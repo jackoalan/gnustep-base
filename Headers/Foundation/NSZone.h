@@ -178,7 +178,7 @@ NSSetZoneName (NSZone *zone, NSString *name);
 GS_EXPORT NSString*
 NSZoneName (NSZone *zone);
 
-#if OS_API_VERSION(GS_API_NONE, GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE, GS_API_NONE) || WIISTEP
 
 /** Deprecated ...<br />
  * Checks integrity of a zone.  Not defined by OpenStep or OS X.

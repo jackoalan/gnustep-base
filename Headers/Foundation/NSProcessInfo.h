@@ -40,7 +40,7 @@ extern "C" {
 @class NSData;
 @class NSMutableSet;
 
-#if OS_API_VERSION(GS_API_MACOSX,GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX,GS_API_LATEST) || WIISTEP
 
 /**
  * Constants returned by the -operatingSystem method.
@@ -57,7 +57,7 @@ enum {
   NSMACHOperatingSystem,
   NSSunOSOperatingSystem,
   NSOSF1OperatingSystem,
-#if OS_API_VERSION(GS_API_NONE,GS_API_NONE)
+#if OS_API_VERSION(GS_API_NONE,GS_API_NONE) || WIISTEP
   GSGNULinuxOperatingSystem = 100,
   GSBSDOperatingSystem,
   GSBeOperatingSystem,

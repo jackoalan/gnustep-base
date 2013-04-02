@@ -96,7 +96,7 @@ extern "C" {
  */
 + (NSValue*) valueWithSize: (NSSize)size;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  * Synonym for value:withObjCType: .
  */

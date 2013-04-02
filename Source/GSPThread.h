@@ -23,6 +23,39 @@
 #ifndef _GSPThread_h_
 #define _GSPThread_h_
 
+#ifdef WIISTEP
+/*
+#if WIISTEP_RVL_SDK // Use Nintendo's OS API for thread-sync
+
+#include <revolution/os.h>
+typedef OSMutex mutex_t;
+#define INIT_LOCK(x) OSInitMutex(&x)
+#define LOCK(x) OSLockMutex(&x)
+#define UNLOCK(x) OSUnlockMutex(&x)
+#define DESTROY_LOCK(x) // All memory usage is within OSMutex object
+
+#elif WIISTEP_LIBOGC // Use libogc LWP API for thread-sync
+*/
+#include <ogc/mutex.h>
+// Libogc conveniently defines mutex_t
+#define INIT_LOCK(x) LWP_MutexInit(&x,0)
+#define LOCK(x) LWP_MutexLock(*x)
+#define UNLOCK(x) LWP_MutexUnlock(*x)
+#define DESTROY_LOCK(x) LWP_MutexDestroy(*x)
+
+// Recursive variant
+#define GS_INIT_RECURSIVE_MUTEX(x) LWP_MutexInit(&x,1)
+
+// Pthreads overrides
+#define pthread_mutex_t mutex_t
+#define pthread_mutex_lock(l) LOCK(l)
+#define pthread_mutex_unlock(l) UNLOCK(l)
+#define pthread_mutex_destroy(l) DESTROY_LOCK(l)
+
+//#endif // Done choosing platform library
+
+#else
+
 #include <pthread.h>
 
 /*
@@ -47,5 +80,7 @@ static inline void GSPThreadInitRecursiveMutex(pthread_mutex_t *x)
   pthread_mutexattr_destroy(&recursiveAttributes);
 }
 # endif // PTHREAD_RECURSIVE_MUTEX_INITIALIZER(_NP)
+
+#endif // WIISTEP
 
 #endif // _GSPThread_h_

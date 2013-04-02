@@ -54,7 +54,8 @@
 #include <ctype.h>
 
 #ifndef NeXT_RUNTIME
-#include <pthread.h>
+//#include <pthread.h>
+#include <GSPthread.h>
 #endif
 #ifdef __GNUSTEP_RUNTIME__
 extern struct objc_slot	*objc_get_slot(Class, SEL);
@@ -735,17 +736,18 @@ gs_string_hash(const char *s)
 #define GSI_MAP_VTYPES GSUNION_PTR
 
 #include "GNUstepBase/GSIMap.h"
-#include <pthread.h>
+//#include <pthread.h>
 
 static GSIMapTable_t protocol_by_name;
 static BOOL protocol_by_name_init = NO;
-static pthread_mutex_t protocol_by_name_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t protocol_by_name_lock = 0;
 
 /* Not sure about the semantics of inlining
    functions with static variables.  */
 static void
 gs_init_protocol_lock(void)
 {
+  INIT_LOCK(protocol_by_name_lock);
   pthread_mutex_lock(&protocol_by_name_lock);
   if (protocol_by_name_init == NO)
   	{

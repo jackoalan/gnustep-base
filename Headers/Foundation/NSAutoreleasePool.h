@@ -231,7 +231,7 @@ NS_AUTOMATED_REFCOUNT_UNAVAILABLE
  */
 - (id) autorelease;
 
-#if OS_API_VERSION(100400, GS_API_LATEST)
+#if OS_API_VERSION(100400, GS_API_LATEST) || WIISTEP
 /**
  * Intended to trigger a garbage collection run (if needed) when called in
  * a garbage collected environment.<br />

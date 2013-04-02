@@ -5,6 +5,9 @@
 #include <ctype.h>
 #include <unistd.h>
 #include <inttypes.h>
+#include <signal.h>
+#include <math.h>
+#include <fcntl.h>
 
 #define NO_GNUSTEP 0
 #define GS_OPENSTEP_V	 10000
@@ -19,7 +22,7 @@
 
 #define GSWARN 1
 
-#define __OBJC_GC__ 0
+#undef __OBJC_GC__ // DO NOT WANT!
 
 // Strong has different semantics in GC and ARC modes, so we need to have a
 // macro that picks the correct one.
