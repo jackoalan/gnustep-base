@@ -53,4 +53,8 @@ add_wii_library(foundation-wii
 add_definitions(
 -D GNUSTEP_BASE_INTERNAL)
 
+install(TARGETS foundation-wii
+  EXPORT WiiStepTargets
+  ARCHIVE DESTINATION "${INSTALL_WS_DIR}/${PPC_WII_DIR}/lib"
+  COMPONENT dev)
 
