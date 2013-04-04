@@ -954,7 +954,7 @@ int gnustep_base_user_main (int argc, char *argv[], char *env[])
   exit(1);
   return 1;
 }
-int main(int argc, char *argv[], char *env[])
+int wiistep_main(int argc, char *argv[], char *env[])
 {
 #ifdef NeXT_RUNTIME
   /* This memcpy has to be done before the first message is sent to any
