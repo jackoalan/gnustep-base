@@ -595,6 +595,10 @@ unregisterActiveThread(NSThread *thread)
   pthread_getschedparam(pthread_self(), &policy, &param);
   param.sched_priority = pri;
   pthread_setschedparam(pthread_self(), policy, &param);
+#elif WIISTEP
+  pri *= (LWP_PRIO_HIGHEST - LWP_PRIO_IDLE);
+  pri += LWP_PRIO_IDLE;
+  LWP_SetThreadPriority(LWP_GetSelf(), pri);
 #endif
 }
 
@@ -628,6 +632,10 @@ unregisterActiveThread(NSThread *thread)
   pri -= PTHREAD_MIN_PRIORITY;
   pri /= (PTHREAD_MAX_PRIORITY - PTHREAD_MIN_PRIORITY);
 
+#elif WIISTEP
+  pri = _thr_executing->cur_prio;
+  pri -= PTHREAD_MIN_PRIORITY;
+  pri /= (PTHREAD_MAX_PRIORITY - PTHREAD_MIN_PRIORITY);
 #else
 #warning Your pthread implementation does not support thread priorities
 #endif
@@ -815,6 +823,50 @@ static void *nsthreadLauncher(void* thread)
 
 - (void) start
 {
+#ifdef WIISTEP
+  lwp_t thr;
+  
+  if (_active == YES)
+  {
+    [NSException raise: NSInternalInconsistencyException
+                format: @"[%@-$@] called on active thread",
+     NSStringFromClass([self class]),
+     NSStringFromSelector(_cmd)];
+  }
+  if (_cancelled == YES)
+  {
+    [NSException raise: NSInternalInconsistencyException
+                format: @"[%@-$@] called on cancelled thread",
+     NSStringFromClass([self class]),
+     NSStringFromSelector(_cmd)];
+  }
+  if (_finished == YES)
+  {
+    [NSException raise: NSInternalInconsistencyException
+                format: @"[%@-$@] called on finished thread",
+     NSStringFromClass([self class]),
+     NSStringFromSelector(_cmd)];
+  }
+  
+  /* Make sure the notification is posted BEFORE the new thread starts.
+   */
+  gnustep_base_thread_callback();
+  
+  /* The thread must persist until it finishes executing.
+   */
+  [self retain];
+  
+  /* Mark the thread as active whiul it's running.
+   */
+  _active = YES;
+  
+  if (LWP_CreateThread(&thr, nsthreadLauncher, self, NULL, _stackSize, 64)) {
+    DESTROY(self);
+    [NSException raise: NSInternalInconsistencyException
+                format: @"Unable to detach thread (last error %@)",
+     [NSError _last]];
+  }
+#else
   pthread_attr_t	attr;
   pthread_t		thr;
 
@@ -872,6 +924,7 @@ static void *nsthreadLauncher(void* thread)
                   format: @"Unable to detach thread (last error %@)",
                   [NSError _last]];
     }
+#endif
 }
 
 /**

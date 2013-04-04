@@ -101,9 +101,11 @@ GS_EXPORT void
 GNUstepUserConfig(NSMutableDictionary *config, NSString *userName);
 
 #endif
+#ifndef WIISTEP
 GS_EXPORT NSString *NSUserName(void);
 GS_EXPORT NSString *NSHomeDirectory(void);
 GS_EXPORT NSString *NSHomeDirectoryForUser(NSString *loginName);
+#endif
 
 #if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
 enum

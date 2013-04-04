@@ -70,7 +70,7 @@ GS_EXPORT NSString * const NSSystemTimeZoneDidChangeNotification;
 + (NSDictionary*) abbreviationMap;
 #endif
 
-#if	OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if	OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 + (void) resetSystemTimeZone;
 + (NSTimeZone*) systemTimeZone;
 + (NSTimeZone*) timeZoneWithName: (NSString*)name data: (NSData*)data;
@@ -100,7 +100,7 @@ GS_EXPORT NSString * const NSSystemTimeZoneDidChangeNotification;
                      locale: (NSLocale *)locale;
 #endif
 
-#if	OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX)
+#if	OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX) || WIISTEP
 - (NSTimeZoneDetail*) timeZoneDetailForDate: (NSDate*)date;
 - (NSString*) timeZoneName;
 #endif
@@ -115,7 +115,7 @@ GS_EXPORT NSString * const NSSystemTimeZoneDidChangeNotification;
 
 @end
 
-#if	OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX)
+#if	OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX) || WIISTEP
 @interface NSTimeZoneDetail : NSTimeZone
 - (BOOL) isDaylightSavingTimeZone;
 - (NSString*) timeZoneAbbreviation;

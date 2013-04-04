@@ -93,6 +93,8 @@
 #include <stdio.h>
 #ifdef HAVE_WCHAR_H
 #include <wchar.h>
+#elif WIISTEP
+// stddef.h takes care of it
 #else
 typedef uint32_t wint_t;
 #endif
@@ -102,7 +104,7 @@ typedef uint32_t wint_t;
 #ifdef HAVE_MALLOC_H
 #include <malloc.h>
 #endif
-#ifndef HAVE_UINTMAX_T
+#if !defined(HAVE_UINTMAX_T) && !defined(WIISTEP)
 typedef unsigned long long uintmax_t;
 #endif
 

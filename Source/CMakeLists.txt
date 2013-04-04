@@ -5,13 +5,17 @@ include_directories(.)
 
 add_wii_library(foundation-wii
   NSObjCRuntime.m Additions/GSObjcRuntime.m 
+  externs.m
   NSObject.m
   NSValue.m
   NSNumber.m
+  NSDecimal.m
+  NSScanner.m
   GSArray.m NSArray.m
   GSDictionary.m NSDictionary.m
   GSString.m NSString.m
   NSData.m
+  NSDate.m
   NSMapTable.m NSConcreteMapTable.m
   NSHashTable.m NSConcreteHashTable.m
   NSPointerArray.m
@@ -24,7 +28,29 @@ add_wii_library(foundation-wii
   Additions/GSLock.m
   Additions/Unicode.m
   NSProcessInfo.m Additions/NSProcessInfo+GNUstepBase.m
-  Additions/NSDebug+GNUstepBase.m)
+  Additions/NSDebug+GNUstepBase.m
+  NSSortDescriptor.m
+  NSPropertyList.m
+  NSFileManager.m
+  NSCallbacks.m
+  NSRange.m
+  #NSUserDefaults.m
+  GSPrivateHash.m
+  NSThread.m wiistep/pthreads.m
+  NSPage.m
+  NSCopyObject.m
+  GSFormat.m
+  NSCalendarDate.m
+  GSLocale.m
+  #NSPathUtilities.m
+  NSRunLoop.m
+  NSNotificationQueue.m
+  GSTimSort.m
+  NSTimer.m
+  unix/GSRunLoopCtxt.m
+  GSRunLoopWatcher.m)
 
 add_definitions(
 -D GNUSTEP_BASE_INTERNAL)
+
+

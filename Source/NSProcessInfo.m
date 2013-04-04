@@ -952,6 +952,7 @@ int gnustep_base_user_main (int argc, char *argv[], char *env[])
 "header from the one supplied with this copy of the gnustep-base library)?\n"
 "If that is not the case, Please report the error to bug-gnustep@gnu.org.\n");
   exit(1);
+  return 1;
 }
 int main(int argc, char *argv[], char *env[])
 {
@@ -1032,6 +1033,8 @@ int main(int argc, char *argv[], char *env[])
           return NO;
         }
       CloseHandle(h);
+#elif WIISTEP
+  return NO;
 #else
       if (kill(pid, 0) < 0 && errno == ESRCH)
         {

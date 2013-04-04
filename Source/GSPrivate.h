@@ -325,8 +325,10 @@ GSPrivateBuildStrings(void) GS_ATTRIB_PRIVATE;
 
 /* Used to check for termination of background tasks.
  */
+#ifndef WIISTEP
 BOOL
 GSPrivateCheckTasks(void) GS_ATTRIB_PRIVATE;
+#endif
 
 /* get the default C-string encoding.
  */
@@ -336,13 +338,17 @@ GSPrivateDefaultCStringEncoding() GS_ATTRIB_PRIVATE;
 /* Get default locale quickly (usually from cache).
  * External apps would cache the locale themselves.
  */
+#ifndef WIISTEP
 NSDictionary *
 GSPrivateDefaultLocale() GS_ATTRIB_PRIVATE;
+#endif
 
 /* Get one of several standard values.
  */
+#ifndef WIISTEP
 BOOL
 GSPrivateDefaultsFlag(GSUserDefaultFlagType type) GS_ATTRIB_PRIVATE;
+#endif
 
 /* get the name of a string encoding as an NSString.
  */

@@ -114,10 +114,10 @@ extern "C" {
 
 // Getting and Setting Time Zones
 - (void) setTimeZone: (NSTimeZone*)aTimeZone;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 - (NSTimeZone*) timeZone;
 #endif
-#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX)
+#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX) || WIISTEP
 - (NSTimeZoneDetail*) timeZoneDetail;
 #endif
 
@@ -140,7 +140,7 @@ extern "C" {
 
 #endif
 
-#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX)
+#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX) || WIISTEP
 @interface NSCalendarDate (OPENSTEP)
 
 - (NSCalendarDate*) dateByAddingYears: (NSInteger)years

@@ -87,12 +87,12 @@ extern "C" {
 - (void) invalidate;
 - (id) userInfo;
 
-#if	OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if	OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 - (BOOL) isValid;
 - (NSTimeInterval) timeInterval;
 #endif
 
-#if	OS_API_VERSION(100200, GS_API_LATEST)
+#if	OS_API_VERSION(100200, GS_API_LATEST) || WIISTEP
 - (id) initWithFireDate: (NSDate*)fd
 	       interval: (NSTimeInterval)ti
 		 target: (id)object

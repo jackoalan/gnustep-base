@@ -129,13 +129,13 @@ extern "C" {
 - (NSMutableDictionary*) threadDictionary;
 
 #if OS_API_VERSION(MAC_OS_X_VERSION_10_2,GS_API_LATEST) \
-  && GS_API_VERSION( 10200,GS_API_LATEST)
+  && GS_API_VERSION( 10200,GS_API_LATEST) || WIISTEP
 + (void) setThreadPriority: (double)pri;
 + (double) threadPriority;
 #endif
 
 #if OS_API_VERSION(MAC_OS_X_VERSION_10_5,GS_API_LATEST) \
-  && GS_API_VERSION( 11501,GS_API_LATEST)
+  && GS_API_VERSION( 11501,GS_API_LATEST) || WIISTEP
 
 /** Returns an array of the call stack return addresses.
  */

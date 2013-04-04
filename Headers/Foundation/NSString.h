@@ -775,7 +775,7 @@ typedef NSUInteger NSStringEncodingConversionOptions;
  - (NSRange) paragraphRangeForRange: (NSRange)range;
 #endif
 
-#if OS_API_VERSION(100500,GS_API_LATEST) 
+#if OS_API_VERSION(100500,GS_API_LATEST) || WIISTEP
 /**
  * Returns YES when scanning the receiver's text from left to right
  * finds an initial digit in the range 1-9 or a letter in the set

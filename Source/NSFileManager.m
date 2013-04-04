@@ -572,6 +572,8 @@ static NSStringEncoding	defaultEncoding;
 	  ub.actime = sb.st_atime;
 	  ub.modtime = [date timeIntervalSince1970];
 	  ok = (_UTIME(lpath, &ub) == 0);
+#elif WIISTEP
+	  // TODO: Integrate libogc's stat.h time attributes
 #else
 	  ub[0] = sb.st_atime;
 	  ub[1] = [date timeIntervalSince1970];
@@ -1003,6 +1005,8 @@ static NSStringEncoding	defaultEncoding;
 #ifdef HAVE_GETCWD
   if (getcwd(path, PATH_MAX-1) == 0)
     return nil;
+#elif WIISTEP
+  return nil;
 #else
   if (getwd(path) == 0)
     return nil;

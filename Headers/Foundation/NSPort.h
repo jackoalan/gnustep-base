@@ -36,6 +36,8 @@
 #if	defined(__MINGW__)
 #include	<winsock2.h>
 #include	<wininet.h>
+#elif WIISTEP
+#include <network.h>
 #else
 #include	<sys/socket.h>
 #define	SOCKET	int
@@ -182,7 +184,7 @@ GS_EXPORT NSString* const NSPortDidBecomeInvalidNotification;
 
 #define	PortBecameInvalidNotification NSPortDidBecomeInvalidNotification
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 
 /**
  * Native socket type.

@@ -940,8 +940,12 @@ newLanguages(NSArray *oldNames)
 	  OBJC_STRINGIFY(GNUSTEP_BASE_MAJOR_VERSION.GNUSTEP_BASE_MINOR_VERSION)]
 	  stringByAppendingPathComponent: @"Resources"]
 	  stringByAppendingPathComponent: @"Languages"];
+#if WIISTEP
+        NSArray *paths = @[];
+#else
         NSArray *paths = NSSearchPathForDirectoriesInDomains
 	  (NSLibraryDirectory, NSAllDomainsMask, YES);
+#endif
 
         added_lang = NO;
         added_locale = NO;

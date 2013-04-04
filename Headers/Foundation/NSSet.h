@@ -46,7 +46,7 @@ extern "C" {
 + (id) setWithArray: (NSArray*)objects;
 + (id) setWithObject: (id)anObject;
 + (id) setWithObjects: (id)firstObject, ...;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 + (id) setWithObjects: (const id[])objects
 		count: (NSUInteger)count;
 #endif
@@ -73,14 +73,14 @@ extern "C" {
 
 - (void) makeObjectsPerform: (SEL)aSelector;
 - (void) makeObjectsPerform: (SEL)aSelector withObject: (id)argument;
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 - (void) makeObjectsPerformSelector: (SEL)aSelector;
 - (void) makeObjectsPerformSelector: (SEL)aSelector withObject: (id)argument;
 #endif
 - (id) member: (id)anObject;
 - (NSEnumerator*) objectEnumerator;
 
-#if OS_API_VERSION(100600, GS_API_LATEST)
+#if OS_API_VERSION(100600, GS_API_LATEST) || WIISTEP
 
 DEFINE_BLOCK_TYPE(GSSetEnumeratorBlock, void, id, BOOL*);
 DEFINE_BLOCK_TYPE(GSSetFilterBlock, BOOL, id, BOOL*);

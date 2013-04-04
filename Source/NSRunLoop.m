@@ -1164,7 +1164,9 @@ updateTimer(NSTimer *t, NSDate *d, NSTimeInterval now)
 	   * a method to perform in this thread.
 	   */
           [GSRunLoopCtxt awakenedBefore: nil];
+#ifndef WIISTEP
 	  GSPrivateCheckTasks();
+#endif
 	  if (context != nil)
 	    {
 	      [self _checkPerformers: context];

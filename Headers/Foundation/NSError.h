@@ -50,7 +50,7 @@ GS_EXPORT NSString* const NSLocalizedDescriptionKey;
  */
 GS_EXPORT NSString* const NSUnderlyingErrorKey;
 
-#if	OS_API_VERSION(100400,GS_API_LATEST)
+#if	OS_API_VERSION(100400,GS_API_LATEST) || WIISTEP
 /**
  * This key can be used to store the file path of a resource involved
  * in the error (eg unreadable file).

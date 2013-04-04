@@ -324,7 +324,7 @@ extern "C" {
 - (BOOL) isEqualToNumber: (NSNumber*)otherNumber;
 
 
-#if OS_API_VERSION(MAC_OS_X_VERSION_10_5, GS_API_LATEST)
+#if OS_API_VERSION(MAC_OS_X_VERSION_10_5, GS_API_LATEST) || WIISTEP
 /** Return a number intialised with NSInteger.
  */
 + (NSNumber*) numberWithInteger: (NSInteger)value;

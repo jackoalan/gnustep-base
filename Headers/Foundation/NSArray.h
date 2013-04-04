@@ -112,18 +112,18 @@ typedef NSUInteger NSBinarySearchingOptions;
  */
 - (id) objectAtIndex: (NSUInteger)index;
 
-#if OS_API_VERSION(100400, GS_API_LATEST)
+#if OS_API_VERSION(100400, GS_API_LATEST) || WIISTEP
 - (NSArray *) objectsAtIndexes: (NSIndexSet *)indexes;
 #endif
 
 - (id) firstObjectCommonWithArray: (NSArray*)otherArray;
 - (BOOL) isEqualToArray: (NSArray*)otherArray;
 
-#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX)
+#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX) || WIISTEP
 - (void) makeObjectsPerform: (SEL)aSelector;
 - (void) makeObjectsPerform: (SEL)aSelector withObject: (id)argument;
 #endif
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 - (void) makeObjectsPerformSelector: (SEL)aSelector;
 - (void) makeObjectsPerformSelector: (SEL)aSelector withObject: (id)arg;
 #endif
