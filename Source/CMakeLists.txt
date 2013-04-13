@@ -7,6 +7,7 @@ add_wii_library(foundation-wii
   NSObjCRuntime.m Additions/GSObjcRuntime.m 
   externs.m
   NSObject.m
+  NSAutoreleasePool.m
   NSValue.m
   NSNumber.m
   NSDecimal.m
@@ -25,7 +26,7 @@ add_wii_library(foundation-wii
   NSError.m
   NSLog.m
   NSDebug.m
-  Additions/GSLock.m
+  NSLock.m Additions/NSLock+GNUstepBase.m Additions/GSLock.m
   Additions/Unicode.m
   NSProcessInfo.m Additions/NSProcessInfo+GNUstepBase.m
   Additions/NSDebug+GNUstepBase.m
@@ -36,7 +37,7 @@ add_wii_library(foundation-wii
   NSRange.m
   #NSUserDefaults.m
   GSPrivateHash.m
-  NSThread.m wiistep/pthreads.m
+  NSThread.m
   NSPage.m
   NSCopyObject.m
   GSFormat.m
@@ -51,7 +52,8 @@ add_wii_library(foundation-wii
   GSRunLoopWatcher.m)
 
 add_definitions(
--D GNUSTEP_BASE_INTERNAL)
+-D GNUSTEP_BASE_INTERNAL
+-fno-objc-arc)
 
 install(TARGETS foundation-wii
   EXPORT WiiStepTargets

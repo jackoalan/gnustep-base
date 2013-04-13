@@ -23,7 +23,11 @@
 */
 
 #import "common.h"
+#if WIISTEP
+#include <wiistep/pthreads.h>
+#else
 #include <pthread.h>
+#endif
 #import "GNUstepBase/GSConfig.h"
 #import "GSPrivate.h"
 #define	gs_cond_t	pthread_cond_t
@@ -67,11 +71,19 @@
   return [NSString stringWithFormat: @"%@ '%@'",\
     [super description], _name];\
 }
+#ifndef WIISTEP
 #define MFINALIZE \
 - (void) finalize\
 {\
   pthread_mutex_destroy(&_mutex);\
 }
+#else
+#define MFINALIZE \
+- (void) finalize\
+{\
+  LWP_MutexDestroy(_mutex);\
+}
+#endif
 #define MNAME \
 - (void) setName: (NSString*)newName\
 {\
@@ -81,6 +93,7 @@
 {\
   return _name;\
 }
+#ifndef WIISTEP
 #define	MLOCK \
 - (void) lock\
 {\
@@ -95,6 +108,23 @@
       _NSLockError(self, _cmd, YES);\
     }\
 }
+#else
+#define	MLOCK \
+- (void) lock\
+{\
+  int err = LWP_MutexLock(_mutex);\
+  if (EINVAL == err)\
+  {\
+    [NSException raise: NSLockException\
+                format: @"failed to lock mutex"];\
+  }\
+  if (EDEADLK == err)\
+  {\
+    _NSLockError(self, _cmd, YES);\
+  }\
+}
+#endif
+#ifndef WIISTEP
 #define	MLOCKBEFOREDATE \
 - (BOOL) lockBeforeDate: (NSDate*)limit\
 {\
@@ -109,26 +139,66 @@
     } while ([limit timeIntervalSinceNow] > 0);\
   return NO;\
 }
+#else
+#define	MLOCKBEFOREDATE \
+- (BOOL) lockBeforeDate: (NSDate*)limit\
+{\
+  do\
+  {\
+    int err = LWP_MutexTryLock(_mutex);\
+    if (0 == err)\
+    {\
+      return YES;\
+    }\
+    sched_yield();\
+  } while ([limit timeIntervalSinceNow] > 0);\
+  return NO;\
+}
+#endif
+#ifndef WIISTEP
 #define	MTRYLOCK \
 - (BOOL) tryLock\
 {\
   int err = pthread_mutex_trylock(&_mutex);\
   return (0 == err) ? YES : NO;\
 }
+#else
+#define	MTRYLOCK \
+- (BOOL) tryLock\
+{\
+  int err = LWP_MutexTryLock(_mutex);\
+  return (0 == err) ? YES : NO;\
+}
+#endif
+#ifndef WIISTEP
 #define	MUNLOCK \
 - (void) unlock\
 {\
   if (0 != pthread_mutex_unlock(&_mutex))\
-    {\
-      [NSException raise: NSLockException\
-	    format: @"failed to unlock mutex"];\
-    }\
+  {\
+    [NSException raise: NSLockException\
+     format: @"failed to unlock mutex"];\
+  }\
 }
+#else
+#define	MUNLOCK \
+- (void) unlock\
+{\
+  if (0 != LWP_MutexUnlock(_mutex))\
+  {\
+    [NSException raise: NSLockException\
+     format: @"failed to unlock mutex"];\
+  }\
+}
+#endif
+
 
 static pthread_mutex_t deadlock;
+#ifndef WIISTEP
 static pthread_mutexattr_t attr_normal;
 static pthread_mutexattr_t attr_reporting;
 static pthread_mutexattr_t attr_recursive;
+#endif
 
 /*
  * OS X 10.5 compatibility function to allow debugging deadlock conditions.
@@ -139,7 +209,11 @@ void _NSLockError(id obj, SEL _cmd, BOOL stop)
     NSStringFromSelector(_cmd), obj);
   NSLog(@"*** Break on _NSLockError() to debug.");
   if (YES == stop)
+#ifndef WIISTEP
      pthread_mutex_lock(&deadlock);
+#else
+     LWP_MutexLock(deadlock);
+#endif
 }
 
 // Exceptions
@@ -167,20 +241,27 @@ NSString *NSLockException = @"NSLockException";
        * pthread_mutexattr_init function, but they are allowed to do so
        * (and deallocate the memory in pthread_mutexattr_destroy).
        */
+#ifndef WIISTEP
       pthread_mutexattr_init(&attr_normal);
       pthread_mutexattr_settype(&attr_normal, PTHREAD_MUTEX_NORMAL);
       pthread_mutexattr_init(&attr_reporting);
       pthread_mutexattr_settype(&attr_reporting, PTHREAD_MUTEX_ERRORCHECK);
       pthread_mutexattr_init(&attr_recursive);
       pthread_mutexattr_settype(&attr_recursive, PTHREAD_MUTEX_RECURSIVE);
+#endif
 
       /* To emulate OSX behavior, we need to be able both to detect deadlocks
        * (so we can log them), and also hang the thread when one occurs.
        * the simple way to do that is to set up a locked mutex we can
        * force a deadlock on.
        */
+#ifndef WIISTEP
       pthread_mutex_init(&deadlock, &attr_normal);
       pthread_mutex_lock(&deadlock);
+#else
+      LWP_MutexInit(&deadlock, 0);
+      LWP_MutexLock(deadlock);
+#endif
     }
 }
 
@@ -195,7 +276,11 @@ MFINALIZE
 {
   if (nil != (self = [super init]))
     {
+#ifndef WIISTEP
       if (0 != pthread_mutex_init(&_mutex, &attr_reporting))
+#else
+      if (0 != LWP_MutexInit(&_mutex, 0))
+#endif
 	{
 	  DESTROY(self);
 	}
@@ -209,7 +294,11 @@ MLOCK
 {
   do
     {
+#ifndef WIISTEP
       int err = pthread_mutex_trylock(&_mutex);
+#else
+      int err = LWP_MutexTryLock(_mutex);
+#endif
       if (0 == err)
 	{
 	  return YES;
@@ -243,7 +332,11 @@ MFINALIZE
 {
   if (nil != (self = [super init]))
     {
+#ifndef WIISTEP
       if (0 != pthread_mutex_init(&_mutex, &attr_recursive))
+#else
+      if (0 != LWP_MutexInit(&_mutex, 1))
+#endif
 	{
 	  DESTROY(self);
 	}
@@ -267,7 +360,11 @@ MUNLOCK
 
 - (void) broadcast
 {
+#ifndef WIISTEP
   pthread_cond_broadcast(&_condition);
+#else
+  LWP_CondBroadcast(_condition);
+#endif
 }
 
 MDEALLOC
@@ -275,21 +372,38 @@ MDESCRIPTION
 
 - (void) finalize
 {
+#ifndef WIISTEP
   pthread_cond_destroy(&_condition);
   pthread_mutex_destroy(&_mutex);
+#else
+  LWP_CondDestroy(_condition);
+  LWP_MutexDestroy(_mutex);
+#endif
 }
 
 - (id) init
 {
   if (nil != (self = [super init]))
     {
+#ifndef WIISTEP
       if (0 != pthread_cond_init(&_condition, NULL))
+#else
+      if (0 != LWP_CondInit(&_condition))
+#endif
 	{
 	  DESTROY(self);
 	}
+#ifndef WIISTEP
       else if (0 != pthread_mutex_init(&_mutex, &attr_reporting))
+#else
+      else if (0 != LWP_MutexInit(&_mutex, 0))
+#endif
 	{
+#ifndef WIISTEP
 	  pthread_cond_destroy(&_condition);
+#else
+          LWP_CondDestroy(_condition);
+#endif
 	  DESTROY(self);
 	}
     }
@@ -302,7 +416,11 @@ MNAME
 
 - (void) signal
 {
+#ifndef WIISTEP
   pthread_cond_signal(&_condition);
+#else
+  LWP_CondSignal(_condition);
+#endif
 }
 
 MTRYLOCK
@@ -310,7 +428,11 @@ MUNLOCK
 
 - (void) wait
 {
+#ifndef WIISTEP
   pthread_cond_wait(&_condition, &_mutex);
+#else
+  LWP_CondWait(_condition, _mutex);
+#endif
 }
 
 - (BOOL) waitUntilDate: (NSDate*)limit
@@ -326,7 +448,11 @@ MUNLOCK
   // Convert fractions of a second to nanoseconds
   timeout.tv_nsec = subsecs * 1e9;
 
+#ifndef WIISTEP
   retVal = pthread_cond_timedwait(&_condition, &_mutex, &timeout);
+#else
+  retVal = LWP_CondTimedWait(_condition, _mutex, &timeout);
+#endif
 
   if (retVal == 0)
     {

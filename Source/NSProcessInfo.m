@@ -234,7 +234,10 @@ static NSMutableSet	*mySet = nil;
 static void
 _gnu_process_args(int argc, char *argv[], char *env[])
 {
+  
+  printf("BEGINNING\n");sleep(1);
   NSAutoreleasePool *arp = [NSAutoreleasePool new];
+  printf("MADE ARP\n");sleep(1);
   NSString	*arg0 = nil;
   int i;
 
@@ -294,6 +297,7 @@ _gnu_process_args(int argc, char *argv[], char *env[])
       abort();
 #endif
     }
+  printf("ZERO\n");sleep(1);
 
   /* Getting the process name */
   IF_NO_GC(RELEASE(_gnu_processName));
@@ -312,6 +316,7 @@ _gnu_process_args(int argc, char *argv[], char *env[])
   }
 #endif
   IF_NO_GC(RETAIN(_gnu_processName));
+  printf("ONE\n");sleep(1);
 
   /* Copy the argument list */
 #if	defined(__MINGW__)
@@ -370,7 +375,9 @@ _gnu_process_args(int argc, char *argv[], char *env[])
       _gnu_arguments = [[NSArray alloc] initWithObjects: obj_argv count: added];
       RELEASE(arg0);
     }
-#endif	
+#endif
+  printf("TWO\n");sleep(1);
+
 	
   /* Copy the evironment list */
   {
@@ -425,6 +432,7 @@ _gnu_process_args(int argc, char *argv[], char *env[])
 	  }
       }
 #endif
+    printf("THREE\n");sleep(1);
     if (env != 0)
       {
 	i = 0;
@@ -448,6 +456,7 @@ _gnu_process_args(int argc, char *argv[], char *env[])
 	    i++;
 	  }
       }
+    printf("FOUR\n");sleep(1);
     IF_NO_GC(RELEASE(_gnu_environment));
     _gnu_environment = [[NSDictionary alloc] initWithObjects: values
 						     forKeys: keys];
@@ -455,6 +464,7 @@ _gnu_process_args(int argc, char *argv[], char *env[])
     IF_NO_GC(RELEASE(values));
   }
   [arp drain];
+  printf("GOTHERE\n");sleep(2);
 }
 
 #if !GS_FAKE_MAIN && ((defined(HAVE_PROCFS)  || defined(HAVE_KVM_ENV) || defined(HAVE_PROCFS_PSINFO) || defined(__APPLE__)) && (defined(HAVE_LOAD_METHOD)))
@@ -897,7 +907,9 @@ _gnu_noobjc_free_vars(void)
     {
       if (_gnu_noobjc_argv == 0 || _gnu_noobjc_env == 0)
 	{
-          _NSLog_printf_handler(_GNU_MISSING_MAIN_FUNCTION_CALL);
+          printf("ANOUT TO INIT\n");sleep(1);
+	  _NSLog_printf_handler(_GNU_MISSING_MAIN_FUNCTION_CALL);
+	  printf("ANOUTED\n");sleep(1);
           exit(1);
 	}
       _gnu_process_args(_gnu_noobjc_argc, _gnu_noobjc_argv, _gnu_noobjc_env);
@@ -954,7 +966,11 @@ int gnustep_base_user_main (int argc, char *argv[], char *env[])
   exit(1);
   return 1;
 }
+#ifdef WIISTEP
 int wiistep_main(int argc, char *argv[], char *env[])
+#else
+int main(int argc, char *argv[], char *env[])
+#endif
 {
 #ifdef NeXT_RUNTIME
   /* This memcpy has to be done before the first message is sent to any
@@ -978,8 +994,13 @@ int wiistep_main(int argc, char *argv[], char *env[])
 #ifdef __MS_WIN__
   _MB_init_runtime();
 #endif /* __MS_WIN__ */
-
+  printf("About to do this\n");sleep(1);
   _gnu_process_args(argc, argv, env);
+  printf("Did this\n");sleep(1);
+  printf("ATD\n");sleep(1);
+  NSString* test_str = [NSString stringWithUTF8String:"Hello!!\n"];
+  printf("DID\n");sleep(1);
+  printf("%s",[test_str UTF8String]);sleep(2);
 
   /* Call the user defined main function */
   return gnustep_base_user_main(argc, argv, env);
@@ -995,6 +1016,7 @@ int wiistep_main(int argc, char *argv[], char *env[])
   // We can't use NSAssert, which calls NSLog, which calls NSProcessInfo...
   if (!(_gnu_processName && _gnu_arguments && _gnu_environment))
     {
+      printf("SBOUT TO EXIT [%s] %p %p\n", [_gnu_processName UTF8String], _gnu_arguments, _gnu_environment);sleep(1);
       _NSLog_printf_handler(_GNU_MISSING_MAIN_FUNCTION_CALL);
       exit(1);
     }

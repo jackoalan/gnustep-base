@@ -57,6 +57,11 @@
 #include <alloca.h>
 #endif
 
+#ifdef WIISTEP
+#include <sys/reent.h>
+#define alloca(size) __builtin_alloca(size)
+#endif
+
 #include <stdio.h>
 
 #import "Foundation/NSArray.h"
@@ -1019,7 +1024,9 @@ NSDictionary *locale)
 	{
 #define T(tag, mem, type)						      \
 	case tag:							      \
+printf("SETTING %p [%u/%u] into %p->" #mem "\n", ap_save, cnt, nargs, args_value);sleep(6);\
 	  args_value[cnt].mem = va_arg (ap_save, type);			      \
+printf("DONE\n");sleep(1);\
 	  break
 
 	T (PA_CHAR, pa_char, int); /* Promoted.  */

@@ -19,6 +19,7 @@
 #include <sys/dirent.h>
 #include <assert.h>
 #include <malloc.h>
+#include <sys/time.h>
 
 // No `lstat` available
 #define lstat stat

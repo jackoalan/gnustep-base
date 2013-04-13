@@ -292,7 +292,11 @@ static BOOL	entered_multi_threaded_state = NO;
 
 static NSThread *defaultThread;
 
+#ifdef WIISTEP
+static NSThread* thread_object_table[LWP_MAX_THREADS+1] = {nil};
+#else
 static pthread_key_t thread_object_key;
+#endif
 
 /**
  * Pthread cleanup call.
@@ -327,11 +331,19 @@ static void exitedThread(void *thread)
 inline NSThread*
 GSCurrentThread(void)
 {
+#ifdef WIISTEP
+  NSThread *thr = thread_object_table[LWP_OBJMASKID(LWP_GetSelf())];
+#else
   NSThread *thr = pthread_getspecific(thread_object_key);
+#endif
   if (nil == thr)
     {
       GSRegisterCurrentThread();
+#ifdef WIISTEP
+      thr = thread_object_table[LWP_OBJMASKID(LWP_GetSelf())];
+#else
       thr = pthread_getspecific(thread_object_key);
+#endif
       if ((nil == defaultThread) && IS_MAIN_PTHREAD)
         {
           defaultThread = [thr retain];
@@ -436,7 +448,11 @@ static void
 setThreadForCurrentThread(NSThread *t)
 {
   [[NSGarbageCollector defaultCollector] disableCollectorForPointer: t];
+#ifdef WIISTEP
+  thread_object_table[LWP_OBJMASKID(LWP_GetSelf())] = t;
+#else
   pthread_setspecific(thread_object_key, t);
+#endif
   gnustep_base_thread_callback();
 }
 
@@ -466,7 +482,11 @@ unregisterActiveThread(NSThread *thread)
       [thread  release];
 
       [[NSGarbageCollector defaultCollector] enableCollectorForPointer: thread];
+#ifdef WIISTEP
+      thread_object_table[LWP_OBJMASKID(LWP_GetSelf())] = nil;
+#else
       pthread_setspecific(thread_object_key, nil);
+#endif
     }
 }
 
@@ -479,14 +499,22 @@ unregisterActiveThread(NSThread *thread)
 
 + (BOOL) _createThreadForCurrentPthread
 {
+#ifdef WIISTEP
+  NSThread	*t = thread_object_table[LWP_OBJMASKID(LWP_GetSelf())];
+#else
   NSThread	*t = pthread_getspecific(thread_object_key);
+#endif
 
   if (t == nil)
     {
       t = [self new];
       t->_active = YES;
       [[NSGarbageCollector defaultCollector] disableCollectorForPointer: t];
+#ifdef WIISTEP
+      thread_object_table[LWP_OBJMASKID(LWP_GetSelf())] = t;
+#else
       pthread_setspecific(thread_object_key, t);
+#endif
       GS_CONSUMED(t);
       return YES;
     }
@@ -544,11 +572,13 @@ unregisterActiveThread(NSThread *thread)
 {
   if (self == [NSThread class])
     {
+#ifndef WIISTEP
       if (pthread_key_create(&thread_object_key, exitedThread))
 	{
 	  [NSException raise: NSInternalInconsistencyException
 		      format: @"Unable to create thread key!"];
 	}
+#endif
       /*
        * Ensure that the default thread exists.
        */

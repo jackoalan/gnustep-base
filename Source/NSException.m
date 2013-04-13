@@ -52,6 +52,9 @@
 #endif
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
+#else
+// Builtin alloca
+#define alloca __builtin_alloca
 #endif
 
 #include <stdio.h>
@@ -568,15 +571,22 @@ GSListModules()
   NSArray *s;
   int i;
   int n;
+  printf("ENNTERED [stackTrace description]\n");sleep(2);
 
   result = [NSMutableString string];
+#if WIISTEP
+  s = [self addresses];
+#else
   s = [self symbols];
+#endif
   n = [s count];
   for (i = 0; i < n; i++)
     {
+      printf("GOTHERE\n");sleep(1);
       NSString	*line = [s objectAtIndex: i];
 
       [result appendFormat: @"%3d: %@\n", i, line];
+      printf("APPENDED %d %@\n", i, line);sleep(1);
     }
   return result;
 }
@@ -609,6 +619,9 @@ GSListModules()
 
 - (NSArray*) symbols
 {
+#if WIISTEP
+  return nil;
+#else
 #if	defined(HAVE_BACKTRACE)
   if (nil == symbols) 
     {
@@ -707,6 +720,7 @@ GSListModules()
     }
 #endif
   return symbols;
+#endif // WIISTEP
 }
 
 @end
@@ -756,6 +770,52 @@ static void _terminate()
     }
 }
 
+
+#if WIISTEP
+
+static int reload_timer = -1;
+
+static void waitForReload()
+{
+  u32 level;
+  
+  PAD_Init();
+  
+  if(reload_timer > 0)
+    kprintf("\n\tReloading in %d seconds\n", reload_timer/50);
+  
+  while ( 1 )
+  {
+    PAD_ScanPads();
+    
+    int buttonsDown = PAD_ButtonsDown(0);
+    
+    if( (buttonsDown & PAD_TRIGGER_Z) || SYS_ResetButtonDown() ||
+       reload_timer == 0 )
+    {
+      kprintf("\n\tReload\n\n\n");
+      _CPU_ISR_Disable(level);
+      _terminate();
+    }
+    
+    if ( buttonsDown & PAD_BUTTON_A )
+    {
+      kprintf("\n\tReset\n\n\n");
+#if defined(HW_DOL)
+      SYS_ResetSystem(SYS_HOTRESET,0,FALSE);
+#else
+      _terminate();
+#endif
+    }
+    
+    usleep(20000);
+    if(reload_timer > 0)
+      reload_timer--;
+  }
+}
+
+#endif
+
 static void
 _NSFoundationUncaughtExceptionHandler (NSException *exception)
 {
@@ -772,6 +832,10 @@ _NSFoundationUncaughtExceptionHandler (NSException *exception)
     }
   fflush(stderr);	/* NEEDED UNDER MINGW */
   [pool drain];
+#if WIISTEP
+  // Reset button is useful here
+  waitForReload();
+#endif
   _terminate();
 }
 
