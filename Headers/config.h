@@ -41,6 +41,8 @@
 
 #define GSNativeChar char
 
+#define	UTF32Char	uint32_t
+
 // Please don't use this
 #define gsu128 uint64_t
 

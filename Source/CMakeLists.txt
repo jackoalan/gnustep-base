@@ -15,6 +15,7 @@ add_wii_library(foundation-wii
   GSArray.m NSArray.m
   GSDictionary.m NSDictionary.m
   GSString.m NSString.m Additions/NSString+GNUstepBase.m
+  NSCharacterSet.m
   NSData.m
   NSDate.m
   NSMapTable.m NSConcreteMapTable.m

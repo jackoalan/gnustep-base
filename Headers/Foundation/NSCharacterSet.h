@@ -48,7 +48,7 @@ extern "C" {
  */
 + (id) alphanumericCharacterSet;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  *  Returns a character set containing letters in the unicode
  *  Titlecase category.
@@ -92,7 +92,7 @@ extern "C" {
  */
 + (id) lowercaseLetterCharacterSet;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  * Returns a character set containing the newline characters, values 
  * 0x000A and 0x000D and nextline 0x0085 character.
@@ -111,7 +111,7 @@ extern "C" {
  */
 + (id) punctuationCharacterSet;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  *  Returns a character set containing mathematical symbols, etc..
  */
@@ -154,7 +154,7 @@ extern "C" {
  */
 + (id) characterSetWithRange: (NSRange)aRange;
 
-#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX)
+#if OS_API_VERSION(GS_API_OPENSTEP, GS_API_MACOSX) || WIISTEP
 /**
  *  Initializes from a bitmap (8192 bytes representing 65536 values).<br />
  *  Each bit set in the bitmap represents the fact that a character at
@@ -178,7 +178,7 @@ extern "C" {
  */
 - (BOOL) characterIsMember: (unichar)aCharacter;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  * Returns YES if the receiver contains at least one character in the
  * specified unicode plane.
@@ -192,7 +192,7 @@ extern "C" {
  */
 - (NSCharacterSet*) invertedSet;
 
-#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST)
+#if OS_API_VERSION(GS_API_MACOSX, GS_API_LATEST) || WIISTEP
 /**
  * Returns YES is all the characters in aSet are present in the receiver.
  */
