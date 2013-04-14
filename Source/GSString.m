@@ -4297,7 +4297,6 @@ agree, create a new GSUInlineString otherwise.
   unichar	buf[1024];
   unichar	*fmt = buf;
   size_t	len;
-  printf("AF unichar %u\n", sizeof(unichar));sleep(1);
 
   va_start(ap, format);
 
@@ -4311,11 +4310,9 @@ agree, create a new GSUInlineString otherwise.
   if (len >= 1024)
     {
       fmt = NSZoneMalloc(NSDefaultMallocZone(), (len+1)*sizeof(unichar));
-      printf("Alloced fmt %u * %u\n", len+1, sizeof(unichar));sleep(1);
     }
   [format getCharacters: fmt];
   fmt[len] = '\0';
-  printf("INITTED format %s\n", [format UTF8String]);sleep(1);
 
   /*
    * If no zone is set, make sure we have one so any memory mangement
@@ -4329,7 +4326,6 @@ agree, create a new GSUInlineString otherwise.
       _zone = [self zone];
 #endif
     }
-  printf("ABOUT TO PF %p %p %p\n", self, fmt, ap);sleep(1);
   GSPrivateFormat((GSStr)self, fmt, ap, nil);
   _flags.hash = 0;	// Invalidate the hash for this string.
   if (fmt != buf)

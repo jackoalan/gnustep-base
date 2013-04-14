@@ -907,9 +907,7 @@ _gnu_noobjc_free_vars(void)
     {
       if (_gnu_noobjc_argv == 0 || _gnu_noobjc_env == 0)
 	{
-          printf("ANOUT TO INIT\n");sleep(1);
-	  _NSLog_printf_handler(_GNU_MISSING_MAIN_FUNCTION_CALL);
-	  printf("ANOUTED\n");sleep(1);
+          _NSLog_printf_handler(_GNU_MISSING_MAIN_FUNCTION_CALL);
           exit(1);
 	}
       _gnu_process_args(_gnu_noobjc_argc, _gnu_noobjc_argv, _gnu_noobjc_env);

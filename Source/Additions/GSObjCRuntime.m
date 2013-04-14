@@ -54,7 +54,9 @@
 #include <ctype.h>
 
 #ifndef NeXT_RUNTIME
-//#include <pthread.h>
+#ifndef WIISTEP
+#include <pthread.h>
+#endif
 #include <GSPthread.h>
 #endif
 #ifdef __GNUSTEP_RUNTIME__
@@ -736,18 +738,26 @@ gs_string_hash(const char *s)
 #define GSI_MAP_VTYPES GSUNION_PTR
 
 #include "GNUstepBase/GSIMap.h"
-//#include <pthread.h>
+#ifndef WIISTEP
+#include <pthread.h>
+#endif
 
 static GSIMapTable_t protocol_by_name;
 static BOOL protocol_by_name_init = NO;
+#ifndef WIISTEP
+static pthread_mutex_t protocol_by_name_lock = PTHREAD_MUTEX_INITIALIZER;
+#else
 static pthread_mutex_t protocol_by_name_lock = 0;
+#endif
 
 /* Not sure about the semantics of inlining
    functions with static variables.  */
 static void
 gs_init_protocol_lock(void)
 {
+#ifdef WIISTEP
   INIT_LOCK(protocol_by_name_lock);
+#endif
   pthread_mutex_lock(&protocol_by_name_lock);
   if (protocol_by_name_init == NO)
   	{

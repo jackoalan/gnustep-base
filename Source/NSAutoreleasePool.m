@@ -36,9 +36,9 @@
 
 #if __has_include(<objc/capabilities.h>)
 #  include <objc/capabilities.h>
-#  ifdef OBJC_ARC_AUTORELEASE_DEBUG
+#  if defined(OBJC_ARC_AUTORELEASE_DEBUG) && !WIISTEP
 #    include <objc/objc-arc.h>
-//#    define ARC_RUNTIME 1
+#    define ARC_RUNTIME 1
 #  endif
 #endif
 
@@ -318,7 +318,6 @@ pop_pool_from_cache (struct autorelease_thread_vars *tv)
 
 + (id) allocWithZone: (NSZone*)zone
 {
-  NSThread* cur_th = [NSThread currentThread];
   struct autorelease_thread_vars *tv = ARP_THREAD_VARS;
   if (tv->pool_cache_count)
     return pop_pool_from_cache (tv);
@@ -331,6 +330,7 @@ pop_pool_from_cache (struct autorelease_thread_vars *tv)
   static IMP	allocImp = 0;
   static IMP	initImp = 0;
   id		arp;
+
   if (0 == allocImp)
     {
       allocImp

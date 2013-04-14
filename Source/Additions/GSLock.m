@@ -242,6 +242,7 @@
 - (id) init
 {
   self = [super init];
+
   if ([NSThread isMultiThreaded] == YES)
     {
       DESTROY(self);
@@ -251,7 +252,7 @@
     {
       if (self != nil)
 	{
-          [[NSNotificationCenter defaultCenter]
+	  [[NSNotificationCenter defaultCenter]
 	    addObserver: self
 	    selector: @selector(_becomeThreaded:)
 	    name: NSWillBecomeMultiThreadedNotification

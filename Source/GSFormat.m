@@ -845,7 +845,9 @@ NSDictionary *locale)
   /* State for restartable multibyte character handling functions.  */
 
   /* We have to save the original argument pointer.  */
+#ifndef WIISTEP
   va_list ap_save;
+#endif
 
   /* Count number of specifiers we already processed.  */
   int nspecs_done;
@@ -891,10 +893,12 @@ NSDictionary *locale)
   /* Initialize local variables.  */
   done = 0;
   grouping = (const char *) -1;
-#ifdef __va_copy
+#if defined(__va_copy) && !defined(WIISTEP)
   /* This macro will be available soon in gcc's <stdarg.h>.  We need it
      since on some systems `va_list' is not an integral type.  */
   __va_copy (ap_save, ap);
+#elif defined(WIISTEP)
+#define ap_save ap
 #else
   ap_save = ap;
 #endif
@@ -1024,9 +1028,7 @@ NSDictionary *locale)
 	{
 #define T(tag, mem, type)						      \
 	case tag:							      \
-printf("SETTING %p [%u/%u] into %p->" #mem "\n", ap_save, cnt, nargs, args_value);sleep(6);\
 	  args_value[cnt].mem = va_arg (ap_save, type);			      \
-printf("DONE\n");sleep(1);\
 	  break
 
 	T (PA_CHAR, pa_char, int); /* Promoted.  */

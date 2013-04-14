@@ -52,7 +52,7 @@
 #endif
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
-#else
+#elif WIISTEP
 // Builtin alloca
 #define alloca __builtin_alloca
 #endif
@@ -571,9 +571,10 @@ GSListModules()
   NSArray *s;
   int i;
   int n;
-  printf("ENNTERED [stackTrace description]\n");sleep(2);
 
   result = [NSMutableString string];
+  // Wii apploader doesn't natively load a symbol table;
+  // therefore, we are only able to print instruction offsets
 #if WIISTEP
   s = [self addresses];
 #else
@@ -582,11 +583,15 @@ GSListModules()
   n = [s count];
   for (i = 0; i < n; i++)
     {
-      printf("GOTHERE\n");sleep(1);
+#if WIISTEP
+      if (i == 6) // First few branches are for exception handling alone
+	[result appendString: @"<-- Occurrence -->\n"];
+      NSNumber	*line = [s objectAtIndex: i];
+      [result appendFormat: @"%3d: %p\n", i, [line unsignedIntegerValue]];
+#else
       NSString	*line = [s objectAtIndex: i];
-
       [result appendFormat: @"%3d: %@\n", i, line];
-      printf("APPENDED %d %@\n", i, line);sleep(1);
+#endif
     }
   return result;
 }
@@ -894,7 +899,6 @@ callUncaughtHandler(id value)
 	format: (NSString*)format,...
 {
   va_list args;
-
   va_start(args, format);
   [self raise: name format: format arguments: args];
   // This probably doesn't matter, but va_end won't get called

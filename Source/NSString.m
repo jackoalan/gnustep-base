@@ -688,7 +688,7 @@ static UCollator *GSICUCollatorOpen(NSStringCompareOptions mask, NSLocale *local
 
       _DefaultStringEncoding = GSPrivateDefaultCStringEncoding();
       _ByteEncodingOk = GSPrivateIsByteEncoding(_DefaultStringEncoding);
-      
+
       NSStringClass = self;
       [self setVersion: 1];
       NSMutableStringClass = [NSMutableString class];
@@ -888,13 +888,12 @@ static UCollator *GSICUCollatorOpen(NSStringCompareOptions mask, NSLocale *local
 + (id) stringWithUTF8String: (const char *)bytes
 {
   NSString	*obj;
-  printf("GOT HERE\n");sleep(1);
+
   if (NULL == bytes)
     [NSException raise: NSInvalidArgumentException
-		format: @"[NSString+stringWithUTF8String:]: NULL cString"];
+ 		format: @"[NSString+stringWithUTF8String:]: NULL cString"];
   obj = [self allocWithZone: NSDefaultMallocZone()];
   obj = [obj initWithUTF8String: bytes];
-  printf("GOT HERE 2\n");sleep(1);
   return AUTORELEASE(obj);
 }
 
@@ -1245,7 +1244,6 @@ static UCollator *GSICUCollatorOpen(NSStringCompareOptions mask, NSLocale *local
 - (id) initWithFormat: (NSString*)format
             arguments: (va_list)argList
 {
-  printf("TAKING CORRECT ROUTE\n");sleep(1);
   return [self initWithFormat: format locale: nil arguments: argList];
 }
 
@@ -1262,7 +1260,7 @@ static UCollator *GSICUCollatorOpen(NSStringCompareOptions mask, NSLocale *local
   unichar	fbuf[1024];
   unichar	*fmt = fbuf;
   size_t	len;
-  printf("unichar %u\n", sizeof(unichar));sleep(1);
+
   /*
    * First we provide an array of unichar characters containing the
    * format string.  For performance reasons we try to use an on-stack
@@ -1273,7 +1271,6 @@ static UCollator *GSICUCollatorOpen(NSStringCompareOptions mask, NSLocale *local
   if (len >= 1024)
     {
       fmt = NSZoneMalloc(NSDefaultMallocZone(), (len+1)*sizeof(unichar));
-      printf("Alloced fmt %u * %u\n", len+1, sizeof(unichar));
     }
   [format getCharacters: fmt range: ((NSRange){0, len})];
   fmt[len] = '\0';
@@ -1292,7 +1289,6 @@ static UCollator *GSICUCollatorOpen(NSStringCompareOptions mask, NSLocale *local
   f->_flags.owned = 0;
   f->_flags.unused = 0;
   f->_flags.hash = 0;
-  printf("About to init format %s\n", fmt);
   GSPrivateFormat(f, fmt, argList, locale);
   GSPrivateStrExternalize(f);
   if (fmt != fbuf)
