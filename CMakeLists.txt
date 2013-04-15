@@ -6,7 +6,7 @@ set(WS_LLVM_BIN_DIR ${WiiStep_BINARY_DIR}/llvm/bin)
 set(WS_DKPPC_BIN_DIR ${WiiStep_BINARY_DIR}/devkitPPC/bin)
 
 # PPC include/lib directories
-set(WS_PPC_INCLUDE_DIRS ${WiiStep_BINARY_DIR}/devkitPPC/powerpc-eabi/include;/Users/jacko/Documents/ProjectPhoton/WiiStep/build/libogc/include;/Users/jacko/Documents/ProjectPhoton/WiiStep/gnustep-libobjc2)
+set(WS_PPC_INCLUDE_DIRS ${WiiStep_BINARY_DIR}/devkitPPC/powerpc-eabi/include;${WiiStep_BINARY_DIR}/libogc/include;${WiiStep_SOURCE_DIR}/gnustep-libobjc2)
 set(WS_PPC_LIB_DIRS ${WiiStep_BINARY_DIR}/devkitPPC/powerpc-eabi/lib;${WiiStep_BINARY_DIR}/libogc/lib/wii)
 
 # Objective-C runtime built files
