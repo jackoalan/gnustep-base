@@ -1,7 +1,6 @@
 #ifndef PTHREADS_H
 #define PTHREADS_H
 
-#import <Foundation/NSValue.h>
 #include <ogc/lwp.h>
 #include <ogc/lwp_threads.h>
 #include <ogc/mutex.h>
