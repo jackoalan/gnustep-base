@@ -2048,8 +2048,6 @@ static NSStringEncoding	defaultEncoding;
 {
   NSDirectoryEnumerator	*direnum;
   NSMutableArray	*content;
-  IMP			nxtImp;
-  IMP			addImp;
   BOOL			is_dir;
 
   /*
@@ -2059,6 +2057,7 @@ static NSStringEncoding	defaultEncoding;
     {
       return nil;
     }
+  content = [NSMutableArray arrayWithCapacity: 128];
   /* We initialize the directory enumerator with justContents == YES,
      which tells the NSDirectoryEnumerator code that we only enumerate
      the contents non-recursively once, and exit.  NSDirectoryEnumerator
@@ -2068,17 +2067,20 @@ static NSStringEncoding	defaultEncoding;
 						  followSymlinks: NO
 						    justContents: YES
 							     for: self];
-  content = [NSMutableArray arrayWithCapacity: 128];
-
-  nxtImp = [direnum methodForSelector: @selector(nextObject)];
-  addImp = [content methodForSelector: @selector(addObject:)];
-
-  while ((path = (*nxtImp)(direnum, @selector(nextObject))) != nil)
+  if (nil != direnum)
     {
-      (*addImp)(content, @selector(addObject:), path);
-    }
-  RELEASE(direnum);
+      IMP	nxtImp;
+      IMP	addImp;
 
+      nxtImp = [direnum methodForSelector: @selector(nextObject)];
+      addImp = [content methodForSelector: @selector(addObject:)];
+
+      while ((path = (*nxtImp)(direnum, @selector(nextObject))) != nil)
+	{
+	  (*addImp)(content, @selector(addObject:), path);
+	}
+      RELEASE(direnum);
+    }
   return [content makeImmutableCopyOnFail: NO];
 }
 
@@ -2117,30 +2119,31 @@ static NSStringEncoding	defaultEncoding;
   NSDirectoryEnumerator	*direnum;
   NSMutableArray	*content;
   BOOL			isDir;
-  IMP			nxtImp;
-  IMP			addImp;
 
   if (![self fileExistsAtPath: path isDirectory: &isDir] || !isDir)
     {
       return nil;
     }
+  content = [NSMutableArray arrayWithCapacity: 128];
   direnum = [[NSDirectoryEnumerator alloc] initWithDirectoryPath: path
 				       recurseIntoSubdirectories: YES
 						  followSymlinks: NO
 						    justContents: NO
 							     for: self];
-  content = [NSMutableArray arrayWithCapacity: 128];
-
-  nxtImp = [direnum methodForSelector: @selector(nextObject)];
-  addImp = [content methodForSelector: @selector(addObject:)];
-
-  while ((path = (*nxtImp)(direnum, @selector(nextObject))) != nil)
+  if (nil != direnum)
     {
-      (*addImp)(content, @selector(addObject:), path);
+      IMP	nxtImp;
+      IMP	addImp;
+
+      nxtImp = [direnum methodForSelector: @selector(nextObject)];
+      addImp = [content methodForSelector: @selector(addObject:)];
+
+      while ((path = (*nxtImp)(direnum, @selector(nextObject))) != nil)
+	{
+	  (*addImp)(content, @selector(addObject:), path);
+	}
+      RELEASE(direnum);
     }
-
-  RELEASE(direnum);
-
   return [content makeImmutableCopyOnFail: NO];
 }
 
