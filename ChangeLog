@@ -1,3 +1,18 @@
+2013-04-24  Richard Frith-Macdonald <rfm@gnu.org>
+
+        * Source/GSMime.m: ([GSMimeParser-parse:]) fix possible infinite
+        recursion when encountering a bad document.
+
+2013-04-22  Richard Frith-Macdonald <rfm@gnu.org>
+
+        * Source/GSMime.m: Fix memory management error with excess bytes
+        after parsing mime headers.
+
+2013-04-18      Marcus Muller <znek@mulle-kybernetik.com>
+
+        * Source/NSMetadata.m: Fix to expose variables to compiler building
+        with non-fragile ABI.
+
 2013-04-15  Richard Frith-Macdonald <rfm@gnu.org>
 
 	* Source/GNUmakefile:
