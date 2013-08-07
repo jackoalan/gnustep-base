@@ -60,7 +60,9 @@
 #include <stdio.h>
 
 #ifdef HAVE_BACKTRACE
+#if !WIISTEP
 #include <execinfo.h>
+#endif
 #ifdef USE_BINUTILS
 #undef USE_BINUTILS
 #endif
@@ -131,7 +133,9 @@ GSPrivateBaseAddress(void *addr, void **base)
 #endif  /* USE_BINUTILS */
 #else	/* __MINGW__ */
 
+#if !WIISTEP
 #include <dlfcn.h>
+#endif
 
 #if	defined(USE_BINUTILS)
 static NSString *
