@@ -832,7 +832,7 @@ static void ffree (NSZone *zone, void *ptr);
 static void frecycle (NSZone *zone);
 static BOOL fcheck (NSZone *zone);
 static BOOL flookup (NSZone *zone, void *ptr);
-static struct NSZoneStats fstats (NSZone *zone);
+static struct NSZoneStats fstats_w (NSZone *zone);
 
 static inline size_t segindex (size_t size);
 static ff_block* get_chunk (ffree_zone *zone, size_t size);
@@ -1280,7 +1280,7 @@ flookup (NSZone *zone, void *ptr)
 /* Obtain statistics about the zone.  Doesn't have to be particularly
    efficient. */
 static struct NSZoneStats
-fstats (NSZone *zone)
+fstats_w (NSZone *zone)
 {
   size_t i;
   struct NSZoneStats stats;
@@ -1985,7 +1985,7 @@ NSCreateZone (NSUInteger start, NSUInteger gran, BOOL canFree)
       zone->common.recycle = frecycle;
       zone->common.check = fcheck;
       zone->common.lookup = flookup;
-      zone->common.stats = fstats;
+      zone->common.stats = fstats_w;
       zone->common.gran = granularity;
       zone->common.name = nil;
       GS_INIT_RECURSIVE_MUTEX(zone->lock);
